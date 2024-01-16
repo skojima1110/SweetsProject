@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Sweets Paradise</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Sweets List</h1>
+    <p>What are you buy?</p>
+      <ul>
+        <li th:each="sweets : ${sweets}" th:text="${sweets.item} + '/' + ${sweets.kind} + ' ' + ${sweets.stock}">
+        </li>
+      </ul>
+</body>
+</html>

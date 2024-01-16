@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Sweets Paradise</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Sweets List</h1>
+    <p>What are you buy?</p>
+    <form th:action="@{/buy}" method="POST" th:object="${sweetsForm}">
+      <ul>
+        <li th:each="sweets, st : *{sweetsList}">
+          <input type="checkbox" th:field="*{sweetsList[__${st.index}__].checked}">
+          <label th:for="*{sweetsList[__${st.index}__].id}" th:text="*{sweetsList[__${st.index}__].item}" />
+          <input type="hidden" th:field="*{sweetsList[__${st.index}__].item}" />
+          <input type="hidden" th:field="*{sweetsList[__${st.index}__].id}" />
+          <input type="hidden" th:field="*{sweetsList[__${st.index}__].kind}" />
+          <input type="hidden" th:field="*{sweetsList[__${st.index}__].stock}" />
+          <span style="margin-left: 5px;" th:text="*{sweetsList[__${st.index}__].stock}" />
+        </li>
+      </ul>
+      <button type="submit">BUY</button>
+    </form>
+</body>
+</html>
