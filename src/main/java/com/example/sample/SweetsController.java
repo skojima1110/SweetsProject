@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.sample.entity.SweetsForm;
 import com.example.sample.service.SweetsService;
 
+//test
+
 @Controller
 public class SweetsController {
 
