@@ -20,6 +20,8 @@ public class SweetsController {
 	@Autowired
 	SweetsRepository repository;
 	
+	//test
+	
 	@RequestMapping("/showcase")
 	public String showcase(Model model) {
 		List<Sweets> list = repository.findAll();
