@@ -3,6 +3,7 @@
 <head> 
     <title>Sweets Paradise</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="shop.css" />
 </head>
 <body>
     <h1>Sweets List</h1>
@@ -10,7 +11,7 @@
     <form th:action="@{/buy}" method="POST" th:object="${sweetsForm}">
       <ul>
         <li th:each="sweets, st : *{sweetsList}">
-          <input type="checkbox" th:field="*{sweetsList[__${st.index}__].checked}">
+          <input type="number" th:field="*{sweetsList[__${st.index}__].checked}" max="*{sweetsList[__${st.index}__].stock}">
           <label th:for="*{sweetsList[__${st.index}__].id}" th:text="*{sweetsList[__${st.index}__].item}" />
           <input type="hidden" th:field="*{sweetsList[__${st.index}__].item}" />
           <input type="hidden" th:field="*{sweetsList[__${st.index}__].id}" />

@@ -13,6 +13,7 @@ import com.example.sample.repository.SweetsRepository;
 
 @Service
 public class SweetsService {
+	
 	@Autowired
 	SweetsRepository repository;	
 
@@ -77,5 +78,53 @@ public class SweetsService {
 		}
 		return shoppingList;
 	}
+
+/**
+ * ショップで表示する
+ * mydb.sweetsのデータを全件取得し、
+ * ショップ用のFormに移し替えて返却
+ * @return SweetsForm
+ */
+public SweetsForm getShopData2() {
+	List<Sweets> list = repository.findAll();
+	// エンティティを画面データに詰めかえる
+	List<SweetsData> sweetsList = new ArrayList<SweetsData>();
+	for (Sweets sweets : list) {
+		SweetsData data = new SweetsData();
+		data.setId(sweets.getId());
+		data.setItem(sweets.getItem());
+		data.setStock(sweets.getStock());
+		data.setPurchases(0); // 購入数の初期値:0
+		sweetsList.add(data);
+	}
+	SweetsForm sweetsForm = new SweetsForm();
+	sweetsForm.setSweetsList(sweetsList);
+	return sweetsForm;
+}
+
+
+/**
+ * 買い物情報の更新をして
+ * お買い上げ商品のリストを返却
+ * @return List<Sweets>
+ */
+public List<SweetsData> updateStock2(SweetsForm sweetsForm) {
+	// お買い上げリスト
+	List<SweetsData> shoppingList = new ArrayList<SweetsData>();
+	for (SweetsData sweets : sweetsForm.getSweetsList()) {
+		// 購入数が0以上の商品をお買い上げ
+		if (sweets.getPurchases() > 0) {
+			SweetsData data = new SweetsData();
+			data.setId(sweets.getId());
+			data.setItem(sweets.getItem());
+			data.setPurchases(sweets.getPurchases());
+			shoppingList.add(data);
+
+			// DB更新
+			repository.updateStock(sweets.getPurchases(), sweets.getId());
+		}
+	}
+	return shoppingList;
+}
 
 }
