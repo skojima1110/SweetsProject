@@ -20,7 +20,7 @@
 			</header>
 			<form th:action="@{/buy}" method="POST" th:object="${sweetsForm}">
 			<div class="card-content">
-<!--				<h3 class="has-text-danger" th:text="${msg}" />  -->
+				<h3 class="has-text-danger" th:text="${msg}" />  
 				<ul class="shop-list">
 					<li class="shop-list-item" th:each="sweets, st : *{sweetsList}">
 						<div class="columns is-mobile">
