@@ -29,7 +29,8 @@ public class SweetsController {
 
 	@PostMapping("/buy")
 	public String buy(SweetsForm sweetsForm, Model model) {
-		model.addAttribute("sweets", service.updateBuy(sweetsForm));
+		model.addAttribute("sweets", service.updateStock(sweetsForm));
 		return "thanks";
 	}
+
 }

@@ -25,7 +25,7 @@ public class SweetsService {
 	public List<Sweets> getShowcaseData() {
 		return repository.findAll();
 	}
-
+	
 	/**
 	 * ショップで表示する
 	 * mydb.sweetsのデータを全件取得し、
@@ -40,8 +40,8 @@ public class SweetsService {
 			SweetsData data = new SweetsData();
 			data.setId(sweets.getId());
 			data.setItem(sweets.getItem());
-			data.setKind(sweets.getKind());
 			data.setStock(sweets.getStock());
+			data.setPurchases(0); // 購入数の初期値:0
 			sweetsList.add(data);
 		}
 		SweetsForm sweetsForm = new SweetsForm();
@@ -49,31 +49,26 @@ public class SweetsService {
 		return sweetsForm;
 	}
 
+	
 	/**
 	 * 買い物情報の更新をして
 	 * お買い上げ商品のリストを返却
 	 * @return List<Sweets>
 	 */
-	public List<Sweets> updateBuy(SweetsForm sweetsForm) {
+	public List<SweetsData> updateStock(SweetsForm sweetsForm) {
 		// お買い上げリスト
-		List<Sweets> shoppingList = new ArrayList<Sweets>();
-		// チェックのついた商品のみお買い上げ
+		List<SweetsData> shoppingList = new ArrayList<SweetsData>();
 		for (SweetsData sweets : sweetsForm.getSweetsList()) {
-			if (sweets.isChecked()) {
-				Sweets data = new Sweets();
+			// 購入数が0以上の商品をお買い上げ
+			if (sweets.getPurchases() > 0) {
+				SweetsData data = new SweetsData();
 				data.setId(sweets.getId());
 				data.setItem(sweets.getItem());
-				data.setKind(sweets.getKind());
-				// 買われた商品の在庫数を減らす
-				if (sweets.getStock() > 1) {
-					data.setStock(sweets.getStock() - 1);
-				} else {
-					data.setStock(0);
-				}
+				data.setPurchases(sweets.getPurchases());
 				shoppingList.add(data);
-				
+
 				// DB更新
-				repository.save(data);
+				repository.updateStock(sweets.getPurchases(), sweets.getId());
 			}
 		}
 		return shoppingList;

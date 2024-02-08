@@ -3,13 +3,34 @@
 <head> 
     <title>Sweets Paradise</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link th:href="@{/css/common.css}" rel="styleSheet">
 </head>
-<body>
-    <h1>Sweets List</h1>
-    <p>Thank you for your purchase.</p>
-      <ul>
-        <li th:each="sweets : ${sweets}" th:text="${sweets.item}" />
-      </ul>
-    <a href="/shop">return shop</a>
+<body class="has-background-white-bis">
+	<div class="container">
+		<section class="hero">
+			<img class="hero-cover" th:src="@{/images/sweets.jpg}">
+			<div class="hero-body">
+			    <h1 class="title grad1">SweetsProjectへようこそ</h1>
+			</div>
+		</section>
+		<div class="card">
+			<header class="card-header">
+				<p class="card-header-title">お買い上げありがとうございます。</p>
+			</header>
+			<div class="card-content">
+				<ul class="shop-list">
+					<li class="shop-list-item" th:each="sweets : ${sweets}">
+						<label th:text="${sweets.item} + ' ' + ${sweets.purchases} + '個'">
+					</li>
+				</ul>
+			</div>
+			<footer class="card-footer">
+				<div class="card-footer-item">
+				    <a href="/shop">ショップへ戻る</a>
+				</div>
+			</footer>
+		</div>
+	</div>
 </body>
 </html>

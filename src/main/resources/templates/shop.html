@@ -3,23 +3,60 @@
 <head> 
     <title>Sweets Paradise</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link th:href="@{/css/common.css}" rel="styleSheet">
 </head>
-<body>
-    <h1>Sweets List</h1>
-    <p>What are you buy?</p>
-    <form th:action="@{/buy}" method="POST" th:object="${sweetsForm}">
-      <ul>
-        <li th:each="sweets, st : *{sweetsList}">
-          <input type="checkbox" th:field="*{sweetsList[__${st.index}__].checked}">
-          <label th:for="*{sweetsList[__${st.index}__].id}" th:text="*{sweetsList[__${st.index}__].item}" />
-          <input type="hidden" th:field="*{sweetsList[__${st.index}__].item}" />
-          <input type="hidden" th:field="*{sweetsList[__${st.index}__].id}" />
-          <input type="hidden" th:field="*{sweetsList[__${st.index}__].kind}" />
-          <input type="hidden" th:field="*{sweetsList[__${st.index}__].stock}" />
-          <span style="margin-left: 5px;" th:text="*{sweetsList[__${st.index}__].stock}" />
-        </li>
-      </ul>
-      <button type="submit">BUY</button>
-    </form>
+<body class="has-background-white-bis">
+	<div class="container">
+		<section class="hero">
+			<img class="hero-cover" th:src="@{/images/sweets.jpg}">
+			<div class="hero-body">
+			    <h1 class="title grad1">SweetsProjectへようこそ</h1>
+			</div>
+		</section>
+		<div class="card">
+			<header class="card-header">
+				<p class="card-header-title">リストからお好きなものをお選びください</p>
+			</header>
+			<form th:action="@{/buy}" method="POST" th:object="${sweetsForm}">
+			<div class="card-content">
+<!--				<h3 class="has-text-danger" th:text="${msg}" />  -->
+				<ul class="shop-list">
+					<li class="shop-list-item" th:each="sweets, st : *{sweetsList}">
+						<div class="columns is-mobile">
+							<div class="column is-one-fifth">
+								<th:block th:if="*{sweetsList[__${st.index}__].stock} == 0">
+								<span class="tag is-danger">Sold Out</span>
+								</th:block>
+								<label th:text="*{sweetsList[__${st.index}__].item}" />
+							</div>
+							<div class="column is-number">
+								<span style="margin-left: 5px;" th:text="*{sweetsList[__${st.index}__].stock}" />個
+							</div>
+							<div class="column">
+								<div class="select is-small" th:if="*{sweetsList[__${st.index}__].stock} > 0">
+									<select th:field="*{sweetsList[__${st.index}__].purchases}">
+										<option th:value="0" selected></option> <!-- 未選択 -->
+										<option th:each="i : ${#numbers.sequence(1, sweets.stock)}" th:value="${i}">[[${i}]]</option>
+									</select>
+								</div>
+							</div>
+							<div class="column">
+								<input type="hidden" th:field="*{sweetsList[__${st.index}__].item}" />
+								<input type="hidden" th:field="*{sweetsList[__${st.index}__].id}" />
+								<input type="hidden" th:field="*{sweetsList[__${st.index}__].stock}" />
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<footer class="card-footer">
+				<div class="card-footer-item">
+					<button class="button is-primary" type="submit">お買い上げ</button>
+				</div>
+			</footer>
+		    </form>
+	    </div>
+    </div>
 </body>
 </html>
